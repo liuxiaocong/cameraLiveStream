@@ -1,5 +1,8 @@
 package liuxiaocong.com.camerauploadandplay.record;
 
+import android.view.TextureView;
+import android.view.ViewGroup;
+
 import mozat.rings.libffmpeg.FFMPEGPlayer;
 
 /**
@@ -8,6 +11,18 @@ import mozat.rings.libffmpeg.FFMPEGPlayer;
 public interface RecordContact {
     interface View {
         void clear();
+
+        void setSurfaceTextureListener(TextureView.SurfaceTextureListener listener);
+
+        TextureView getTextureView();
+
+        ViewGroup getUploadPanelParent();
+
+        int getUploadPanelParentWidth();
+
+        int getUploadPanelParentHeight();
+
+        String getUploadUrl();
     }
 
     interface Presenter {
