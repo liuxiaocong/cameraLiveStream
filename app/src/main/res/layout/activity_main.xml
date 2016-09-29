@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context="liuxiaocong.com.camerauploadandplay.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/upload_wrap"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#50FFFF00"
+        android:orientation="vertical">
+
+        <TextureView
+            android:id="@+id/camera_texture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </TextureView>
+
+    </LinearLayout>
+    <EditText
+        android:layout_margin="10dp"
+        android:textSize="12dp"
+        android:background="#eeeeee"
+        android:id="@+id/upload_url"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+    <LinearLayout
+        android:id="@+id/play_wrap"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#5000FF00"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Preview" />
+
+        <Button
+            android:id="@+id/upload"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="upload" />
+
+        <Button
+            android:id="@+id/play"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Play" />
+    </LinearLayout>
+</LinearLayout>
