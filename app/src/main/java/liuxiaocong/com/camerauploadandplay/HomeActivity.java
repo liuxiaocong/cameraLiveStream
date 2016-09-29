@@ -2,6 +2,7 @@ package liuxiaocong.com.camerauploadandplay;
 
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,10 +21,18 @@ import java.nio.ByteBuffer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import liuxiaocong.com.camerauploadandplay.common.AudioRecorder;
+import liuxiaocong.com.camerauploadandplay.common.CameraManager;
+import liuxiaocong.com.camerauploadandplay.common.VideoQuality;
+import liuxiaocong.com.camerauploadandplay.common.YuvHelper;
+import liuxiaocong.com.camerauploadandplay.play.PlayContact;
+import liuxiaocong.com.camerauploadandplay.play.PlayPresenterImpl;
+import liuxiaocong.com.camerauploadandplay.record.RecordContact;
 import liuxiaocong.com.camerauploadandplay.recorder.FFmpegFrameRecorder;
 import liuxiaocong.com.camerauploadandplay.recorder.Frame;
+import mozat.rings.libffmpeg.FFMPEGPlayer;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements PlayContact.View {
     String TAG = "CameraUploadAndPlay";
 
     @BindView(R.id.upload_wrap)
@@ -42,13 +51,19 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.camera_texture)
     TextureView mCameraTextureView;
 
+    private FFMPEGPlayer.EVIDEO_LAYOUT mTargetLayout = FFMPEGPlayer.EVIDEO_LAYOUT.EFIT_HEIGHT_CENTER_WIDTH;
+    @BindView(R.id.player)
+    public FFMPEGPlayer mFFMPEGPlayer;
+
+    PlayContact.Presenter mPlayPresenter;
+    RecordContact.Presenter mRecordPresenter;
+
     CameraManager mCameraManager;
     AudioRecorder mAudioRecorder;
     private int mCameIndex = Camera.CameraInfo.CAMERA_FACING_FRONT;
     //audio
     private static final int SAMPLE_RATE = 44100;
 
-    private String mPlayUrl = "http://d14jvptfm9jqfj.cloudfront.net:80/live/730/playlist.m3u8";
     private String mUploadUrl = "rtmp://wowza-loopstest.mozat.com:1935/live/730_2061254_636782_3";
 
     FFmpegFrameRecorder mRecorder;
@@ -85,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
     long mLastRecorderTime = 0;
     int mExpectIntervalTime = 0;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +113,23 @@ public class MainActivity extends AppCompatActivity {
         mEditText.setText(mUploadUrl);
         mExpectIntervalTime = (int) ((float) 1000 / (float) VIDEO_QUALITY.getFrameRate());
 
+        mFFMPEGPlayer.setRenderMode(FFMPEGPlayer.ERENDER_MODE.ENORMAL_TEXTURE_VIEW);
+        mFFMPEGPlayer.setVideoLayout(mTargetLayout, false);
+        mPlayPresenter = new PlayPresenterImpl();
+        mPlayPresenter.setView(this);
     }
+
+
+
+
+    @OnClick(R.id.play)
+    public void onClickPlay(View view) {
+        if(mPlayPresenter!=null)
+        {
+            mPlayPresenter.startPlay();
+        }
+    }
+
 
     @OnClick(R.id.preview)
     public void onClickPreview(View view) {
@@ -236,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private android.hardware.Camera.PreviewCallback mPreviewCallback = new Camera.PreviewCallback() {
+    private Camera.PreviewCallback mPreviewCallback = new Camera.PreviewCallback() {
         @Override
         public void onPreviewFrame(byte[] bytes, Camera camera) {
             Log.d(TAG, "onPreviewFrame");
@@ -308,6 +341,13 @@ public class MainActivity extends AppCompatActivity {
         if (mCameraManager != null) {
             mCameraManager.releaseCamera();
         }
+        if (mFFMPEGPlayer != null) {
+            mFFMPEGPlayer.destroy();
+        }
+        if(mPlayPresenter!=null)
+        {
+            mPlayPresenter.clear();
+        }
         setKeepScreenStatus(false);
     }
 
@@ -342,4 +382,27 @@ public class MainActivity extends AppCompatActivity {
             //Log.d(TAG,"onSurfaceTextureUpdated");
         }
     };
+
+    @Override
+    public FFMPEGPlayer getFFMPEGPlayer() {
+        return mFFMPEGPlayer;
+    }
+
+    @Override
+    public void setPlayerListener(FFMPEGPlayer.FFMPEGPlayerListener listener) {
+        if(mFFMPEGPlayer!=null)
+        {
+            mFFMPEGPlayer.setPlayerListener(listener);
+        }
+    }
+
+    @Override
+    public void clear() {
+        if(mFFMPEGPlayer!=null)
+        {
+            mFFMPEGPlayer.setPlayerListener(null);
+            mFFMPEGPlayer.destroy();
+            mFFMPEGPlayer = null;
+        }
+    }
 }

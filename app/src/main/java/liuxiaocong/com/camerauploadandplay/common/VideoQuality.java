@@ -1,4 +1,4 @@
-package liuxiaocong.com.camerauploadandplay;
+package liuxiaocong.com.camerauploadandplay.common;
 
 
 public class VideoQuality {

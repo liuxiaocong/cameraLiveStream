@@ -1,4 +1,4 @@
-package liuxiaocong.com.camerauploadandplay;
+package liuxiaocong.com.camerauploadandplay.common;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -19,7 +19,7 @@ public class AudioRecorder {
     private int mFilterLength;
     private int mBufferSize;
 
-    interface AudioRecorderListener {
+    public interface AudioRecorderListener {
         void onAudioDataUpdate(ByteBuffer buffer);
 
         void onFail();
@@ -52,7 +52,7 @@ public class AudioRecorder {
         mAudioThread.start();
     }
 
-    public void release(){
+    public void release() {
         runAudioThread = false;
     }
 

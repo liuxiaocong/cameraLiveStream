@@ -1,4 +1,4 @@
-package liuxiaocong.com.camerauploadandplay;
+package liuxiaocong.com.camerauploadandplay.common;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -26,7 +26,7 @@ public class CameraManager {
     private UIThreadHandler mUIThreadHandler = null;
     private static final int MSG_ON_OPEN_AND_PREVIEW = 0x2000;
 
-    interface OpenCameraListener {
+    public interface OpenCameraListener {
         void onCallbackCameraInfo(int realwidth, int realheight, int degree, int cindex);
     }
 
@@ -70,10 +70,8 @@ public class CameraManager {
 
 
     //need call when you use setPreviewCallbackWithBuffer
-    public void addBuffer(byte[] data)
-    {
-        if(mCameraDevice!=null)
-        {
+    public void addBuffer(byte[] data) {
+        if (mCameraDevice != null) {
             mCameraDevice.addCallbackBuffer(data);
         }
     }

@@ -23,13 +23,15 @@
         </TextureView>
 
     </LinearLayout>
+
     <EditText
-        android:layout_margin="10dp"
-        android:textSize="12dp"
-        android:background="#eeeeee"
         android:id="@+id/upload_url"
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:background="#eeeeee"
+        android:textSize="12dp" />
+
     <LinearLayout
         android:id="@+id/play_wrap"
         android:layout_width="match_parent"
@@ -38,6 +40,20 @@
         android:background="#5000FF00"
         android:orientation="vertical">
 
+        <mozat.rings.libffmpeg.FFMPEGPlayer
+            android:id="@+id/player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <mozat.rings.libffmpeg.FFMPEGMediaController
+                android:id="@+id/media_control"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+            </mozat.rings.libffmpeg.FFMPEGMediaController>
+
+        </mozat.rings.libffmpeg.FFMPEGPlayer>
 
     </LinearLayout>
 

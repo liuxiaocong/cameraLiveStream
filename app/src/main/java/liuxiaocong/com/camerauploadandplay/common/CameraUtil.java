@@ -1,4 +1,4 @@
-package liuxiaocong.com.camerauploadandplay;
+package liuxiaocong.com.camerauploadandplay.common;
 
 import android.app.Activity;
 import android.graphics.ImageFormat;

@@ -1,6 +1,6 @@
-package liuxiaocong.com.camerauploadandplay;
+package liuxiaocong.com.camerauploadandplay.common;
 
-final class YuvHelper {
+public class YuvHelper {
     public static void rotateNV21Degree90(
             byte[] src, byte[] dst,
             int srcWidth, int srcHeight) {
